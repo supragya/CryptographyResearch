@@ -1,0 +1,14 @@
+[package]
+edition = "2021"
+name = "univariate-polynomial-iop-zerotest"
+version = "0.1.0"
+
+[dependencies]
+ark-bls12-381 = "0.4.0"
+ark-ec = "0.4.2"
+ark-ff = "0.4.2"
+ark-std = "0.4.0"
+
+# [[bin]]
+# name = "univ"
+# path = "src/main.rs"

@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "univariate-polynomial-iop-zerotest"
+]
+resolver = "2"
+
+[profile.release]
+codegen-units = 1
+lto = "fat"
+opt-level = "z"

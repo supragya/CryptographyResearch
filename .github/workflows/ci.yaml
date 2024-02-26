@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Rust
+      uses: actions/setup-rust@v1
+      with:
+        profile: minimal
+
+    - name: Run cargo fmt
+      run: |
+        cargo fmt -- --check
+
+    - name: Run cargo clippy
+      run: |
+        cargo clippy -- -D warnings
+
+    - name: Run cargo test
+      run: |
+        cargo test
