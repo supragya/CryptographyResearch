@@ -35,6 +35,7 @@ impl<T: Zero + Mul<Output = T> + Clone> Polynomial<T> {
     /// # Examples
     ///
     /// ```
+    /// use polynomial::Polynomial;
     /// let polynomial = Polynomial::<u32>::new_from_coeffs(&[3, 2, 1]);
     /// assert_eq!(polynomial.eval(0), 3);
     /// assert_eq!(polynomial.eval(1), 6);
