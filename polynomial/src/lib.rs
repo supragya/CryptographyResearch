@@ -1,6 +1,6 @@
-use std::ops::Mul;
+use std::{fmt::Debug, ops::{Mul, Sub}};
 
-use num_traits::Zero;
+use num_traits::{One, Zero};
 
 pub enum PolynomialRepr<T> {
     Points(Vec<(T, T)>),
@@ -27,9 +27,18 @@ where
             repr: PolynomialRepr::Coeff(coeffs.to_vec()),
         }
     }
+
+    /// Generate a polynomial from its roots `r_0`, `r_1`, ... `r_n`
+    /// when polynomial looks as follows:
+    /// `(x - r_0)(x - r_1)(x - r_2)...(x - r_n)`
+    pub fn new_from_roots(roots: &[T]) -> Self {
+        Self {
+            repr: PolynomialRepr::Roots(roots.to_vec()),
+        }
+    }
 }
 
-impl<T: Zero + Mul<Output = T> + Clone> Polynomial<T> {
+impl<T: Zero + One + Mul<Output = T> + Sub<Output = T> + Clone + Debug> Polynomial<T> {
     /// Evaluates the polynomial at a point.
     ///
     /// # Examples
@@ -45,7 +54,13 @@ impl<T: Zero + Mul<Output = T> + Clone> Polynomial<T> {
     pub fn eval(&self, x: T) -> T {
         match &self.repr {
             PolynomialRepr::Points(_points) => unimplemented!(),
-            PolynomialRepr::Roots(_roots) => unimplemented!(),
+            PolynomialRepr::Roots(roots) => {
+                let mut result: T = One::one();
+                for n in roots.iter() {
+                    result = (x.clone() - n.clone()) * result;
+                }
+                result
+            },
             PolynomialRepr::Coeff(coeffs) => {
                 let mut result: T = Zero::zero();
                 for n in coeffs.iter().rev() {
@@ -67,5 +82,13 @@ mod tests {
         assert_eq!(polynomial.eval(0), 3);
         assert_eq!(polynomial.eval(1), 6);
         assert_eq!(polynomial.eval(10), 123);
+    }
+
+    #[test]
+    fn eval_for_roots_polynomial_repr() {
+        let polynomial = Polynomial::<i32>::new_from_roots(&[1, 2, 3]);
+        assert_eq!(polynomial.eval(1), 0);
+        assert_eq!(polynomial.eval(2), 0);
+        assert_eq!(polynomial.eval(3), 0);
     }
 }
