@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "polynomial",
     "univariate-polynomial-iop-zerotest"
 ]
 resolver = "2"
