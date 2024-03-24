@@ -1,7 +1,8 @@
 [workspace]
 members = [
     "polynomial",
-    "univariate-polynomial-iop-zerotest"
+    "univariate-polynomial-iop-zerotest",
+    "zk-plonky2-permutation-circuit"
 ]
 resolver = "2"
 
