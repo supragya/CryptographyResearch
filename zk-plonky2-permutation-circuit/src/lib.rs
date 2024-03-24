@@ -1,9 +1,10 @@
 mod custom_gates;
 
+use custom_gates::switch::SwitchGate;
 use plonky2::hash::hash_types::RichField;
-use plonky2_field::extension::Extendable;
-use plonky2::plonk::circuit_builder::CircuitBuilder;
 use plonky2::iop::target::Target;
+use plonky2::plonk::circuit_builder::CircuitBuilder;
+use plonky2_field::extension::Extendable;
 
 // Inspired by https://github.com/0xPolygonZero/plonky2-waksman/blob/main/src/permutation.rs
 
@@ -18,7 +19,7 @@ pub fn assert_permutation_circuit<F: RichField + Extendable<D>, const D: usize>(
         b.len(),
         "Permutation must have same number of inputs and outputs"
     );
-    
+
     match a.len() {
         // Two empty lists are permutations of one another, trivially.
         0 => (),
@@ -26,15 +27,9 @@ pub fn assert_permutation_circuit<F: RichField + Extendable<D>, const D: usize>(
         1 => {
             builder.connect(a[0], b[0]);
         }
-        2 => assert_permutation_2x2_circuit(
-            builder,
-            a[0],
-            a[1],
-            b[0],
-            b[1],
-        ),
+        2 => assert_permutation_2x2_circuit(builder, a[0], a[1], b[0], b[1]),
         // For larger lists, we recursively use two smaller permutation networks.
-        _ => assert_permutation_helper_circuit(builder, a, b),
+        _ => unimplemented!(), // assert_permutation_helper_circuit(builder, a, b),
     }
 }
 
@@ -46,13 +41,11 @@ fn assert_permutation_2x2_circuit<F: RichField + Extendable<D>, const D: usize>(
     b1: Target,
     b2: Target,
 ) {
-    let (_switch, gate_out1, gate_out2) = create_switch_circuit(builder, a1, a2);
-    for e in 0..chunk_size {
-        builder.connect(b1[e], gate_out1[e]);
-        builder.connect(b2[e], gate_out2[e]);
-    }
+    let (_switch, out_1, out_2) = create_switch_circuit(builder, a1, a2);
+    // Add constraints
+    builder.connect(b1, out_1);
+    builder.connect(b2, out_2);
 }
-
 
 /// Given two input wire chunks, add a new switch to the circuit (by adding one copy to a switch
 /// gate). Returns the wire for the switch boolean, and the two output wire chunks.
@@ -61,29 +54,15 @@ fn create_switch_circuit<F: RichField + Extendable<D>, const D: usize>(
     a1: Target,
     a2: Target,
 ) -> (Target, Target, Target) {
+    let gate = SwitchGate::new();
+    let (row, _next_copy) = builder.find_slot(gate, &vec![], &[]);
 
-    let chunk_size = a1.len();
+    builder.connect(a1, Target::wire(row, SwitchGate::wire_input_1()));
+    builder.connect(a2, Target::wire(row, SwitchGate::wire_input_2()));
 
-    let gate = SwitchGate::new_from_config(&builder.config, chunk_size);
-    let params = vec![F::from_canonical_usize(chunk_size)];
-    let (row, next_copy) = builder.find_slot(gate, &params, &[]);
-
-    let mut c = Vec::new();
-    let mut d = Vec::new();
-    for e in 0..chunk_size {
-        builder.connect(
-            a1[e],
-            Target::wire(row, gate.wire_first_input(next_copy, e)),
-        );
-        builder.connect(
-            a2[e],
-            Target::wire(row, gate.wire_second_input(next_copy, e)),
-        );
-        c.push(Target::wire(row, gate.wire_first_output(next_copy, e)));
-        d.push(Target::wire(row, gate.wire_second_output(next_copy, e)));
-    }
-
-    let switch = Target::wire(row, gate.wire_switch_bool(next_copy));
-
-    (switch, c, d)
+    (
+        Target::wire(row, SwitchGate::wire_switch_bool()),
+        Target::wire(row, SwitchGate::wire_output_1()),
+        Target::wire(row, SwitchGate::wire_output_2()),
+    )
 }
