@@ -1,0 +1,10 @@
+[package]
+edition = "2021"
+name = "zk-plonky2-sudoku"
+version = "0.1.0"
+
+[dependencies]
+anyhow = "1.0.81"
+plonky2 = "0.2.0"
+plonky2_field = "0.2.0"
+plonky2_waksman = {git = "https://github.com/0xPolygonZero/plonky2-waksman"}
