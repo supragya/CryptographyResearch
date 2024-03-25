@@ -1,7 +1,8 @@
 [workspace]
 members = [
     "polynomial",
-    "univariate-polynomial-iop-zerotest"
+    "univariate-polynomial-iop-zerotest",
+    "halo2-trials"
 ]
 resolver = "2"
 

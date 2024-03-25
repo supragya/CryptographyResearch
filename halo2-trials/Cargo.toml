@@ -1,0 +1,9 @@
+[package]
+edition = "2021"
+name = "halo2-trials"
+version = "0.1.0"
+
+[dependencies]
+halo2 = "0.0.0"
+halo2_proofs = "0.3.0"
+rand_core = "0.6.4"
