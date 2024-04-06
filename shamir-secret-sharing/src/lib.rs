@@ -20,10 +20,8 @@ mod tests {
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(0);
         let coeffs: Vec<f64> = [secret as f64]
             .into_iter()
-            .chain((0..threshold-1).map(|_| rng.next_u32() as f64))
+            .chain((0..threshold - 1).map(|_| rng.next_u32() as f64))
             .collect();
-
-        println!("{:?}", coeffs);
 
         let polynomial = Polynomial::new_from_coeffs(&coeffs);
 
@@ -33,15 +31,23 @@ mod tests {
 
         // Now evaulate at a few random points to make the secret
         let secret_parts: Vec<(f64, f64)> = (0..parts)
-            .map(|idx| {
-                let eval = polynomial.eval(idx as f64 + 1.0); // + 1.0 required as we do not want to generate at 0
-                (idx as f64 + 1.0, eval)
+            .map(|_| {
+                let point_of_eval = rng.next_u32() as f64;
+                let eval = polynomial.eval(point_of_eval); // + 1.0 required as we do not want to generate at 0
+                (point_of_eval, eval)
             })
             .collect();
 
         // Ensure reconstruction is possible
         let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[0], secret_parts[3]]);
+        assert!(reconstructed_poly.eval(0.0) - (secret as f64) < 0.0000001); // due to f64 inaccuracy
 
-        assert!(reconstructed_poly.eval(0.0)-(secret as f64) < 0.0000001); // due to f64 inaccuracy
+        // Ensure reconstruction is possible
+        let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[1], secret_parts[3]]);
+        assert!(reconstructed_poly.eval(0.0) - (secret as f64) < 0.0000001); // due to f64 inaccuracy
+
+        // Ensure reconstruction is possible
+        let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[1], secret_parts[2]]);
+        assert!(reconstructed_poly.eval(0.0) - (secret as f64) < 0.0000001); // due to f64 inaccuracy
     }
 }
