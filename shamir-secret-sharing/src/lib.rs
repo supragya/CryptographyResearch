@@ -12,7 +12,7 @@ mod tests {
         // Assume that we want to break secret into 4 "parts",
         // of which any 2 should be able to reconstruct the
         // original secret
-        let parts = 4;
+        let _parts = 4;
         let threshold = 2;
 
         // Hence, coefficients will be of form `secret + r1*x + r2*x^2...`

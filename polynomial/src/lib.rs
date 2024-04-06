@@ -93,7 +93,7 @@ where
                 .map(|(eval_point, _eval)| {
                     RowDVector::from_iterator(
                         evals.len(),
-                        Self::generate_powers(eval_point.clone(), evals.len()).into_iter(),
+                        Self::generate_powers(eval_point.clone(), evals.len()),
                     )
                 })
                 .collect::<Vec<_>>()[..],
@@ -104,7 +104,7 @@ where
         let eval_matrix = DMatrix::<T>::from_rows(
             &evals
                 .iter()
-                .map(|(_eval_point, eval)| RowDVector::from_iterator(1, [eval.clone()].into_iter()))
+                .map(|(_eval_point, eval)| RowDVector::from_iterator(1, [eval.clone()]))
                 .collect::<Vec<_>>()[..],
         );
 
