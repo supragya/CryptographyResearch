@@ -40,14 +40,14 @@ mod tests {
 
         // Ensure reconstruction is possible
         let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[0], secret_parts[3]]);
-        assert!(reconstructed_poly.eval(0.0) - (secret as f64) < 0.0000001); // due to f64 inaccuracy
+        assert!((reconstructed_poly.eval(0.0) - (secret as f64)).abs() < 0.0000001); // due to f64 inaccuracy
 
         // Ensure reconstruction is possible
         let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[1], secret_parts[3]]);
-        assert!(reconstructed_poly.eval(0.0) - (secret as f64) < 0.0000001); // due to f64 inaccuracy
+        assert!((reconstructed_poly.eval(0.0) - (secret as f64)).abs() < 0.0000001); // due to f64 inaccuracy
 
         // Ensure reconstruction is possible
         let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[1], secret_parts[2]]);
-        assert!(reconstructed_poly.eval(0.0) - (secret as f64) < 0.0000001); // due to f64 inaccuracy
+        assert!((reconstructed_poly.eval(0.0) - (secret as f64)).abs() < 0.0000001); // due to f64 inaccuracy
     }
 }

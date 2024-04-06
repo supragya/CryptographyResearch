@@ -46,6 +46,19 @@ impl<T> Polynomial<T> {
     }
 }
 
+impl <T> Polynomial<T>
+where
+    T: Clone {
+    /// Get raw coefficients
+    pub fn get_raw_coefficients(&self) -> Vec<T> {
+        match &self.repr {
+            PolynomialRepr::Points(_points) => unimplemented!(),
+            PolynomialRepr::Roots(_root) => unimplemented!(),
+            PolynomialRepr::Coeff(coeffs) => coeffs.to_vec(),
+        }
+    }
+}
+
 impl<T> Polynomial<T>
 where
     T: Clone + Hash + Eq,
