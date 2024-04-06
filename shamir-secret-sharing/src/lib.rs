@@ -30,13 +30,13 @@ mod tests {
         assert_eq!(polynomial.eval(0), secret);
 
         // Now evaulate at a few random points to make the secret
-        let secret_parts: Vec<(i64, i64)> = (0..threshold)
-            .map(|_| {
-                let point_of_eval = rng.next_u32() as i64;
-                let eval = polynomial.eval(point_of_eval);
-                (point_of_eval, eval)
-            })
-            .collect();
+        // let secret_parts: Vec<(i64, i64)> = (0..threshold)
+        //     .map(|_| {
+        //         let point_of_eval = rng.next_u32() as i64;
+        //         let eval = polynomial.eval(point_of_eval);
+        //         (point_of_eval, eval)
+        //     })
+        //     .collect();
 
         // Ensure reconstruction is possible
         // let reconstructed_poly = Polynomial::new_from_evalutations()
