@@ -4,6 +4,6 @@ name = "halo2-trials"
 version = "0.1.0"
 
 [dependencies]
-halo2 = {workspace=true}
-halo2_proofs = {workspace=true}
-rand_core = {workspace=true}
+halo2 = { workspace = true }
+halo2_proofs = { workspace = true }
+rand_core = { workspace = true }

@@ -1,10 +1,10 @@
 [workspace]
 members = [
-    "polynomial",
-    "univariate-polynomial-iop-zerotest",
-    "halo2-trials",
-    "[Sha97]shamir-secret-sharing",
-    "[Fel87]feldman-verifiable-secret-sharing",
+  "polynomial",
+  "univariate-polynomial-iop-zerotest",
+  "halo2-trials",
+  "[Sha97]shamir-secret-sharing",
+  "[Fel87]feldman-verifiable-secret-sharing",
 ]
 resolver = "2"
 
