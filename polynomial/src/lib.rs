@@ -4,7 +4,8 @@ use std::{
     hash::Hash,
     ops::{Mul, Sub},
 };
-
+extern crate nalgebra as na;
+use na::{ComplexField, DMatrix, RowDVector, Scalar};
 use num_traits::{One, Zero};
 
 pub enum PolynomialRepr<T> {
@@ -60,7 +61,65 @@ where
     }
 }
 
-impl<T: Zero + One + Mul<Output = T> + Sub<Output = T> + Clone + Debug> Polynomial<T> {
+impl<T> Polynomial<T>
+where
+    T: One + Clone,
+{
+    /// Generate powers of `base` raised to a max degree of `deg-1`
+    fn generate_powers(base: T, deg: usize) -> Vec<T> {
+        let mut powers_vec = Vec::<T>::with_capacity(deg);
+        powers_vec.push(T::one());
+        for idx in 1..deg {
+            powers_vec.push(base.clone() * powers_vec[idx - 1].clone());
+        }
+        powers_vec
+    }
+}
+
+impl<T> Polynomial<T>
+where
+    T: Clone + Scalar + Debug + Mul<Output = T> + One + ComplexField,
+{
+    /// Generate a polynomials from its evalutation points givent in
+    /// a tuple format `(a, b)` such that `poly(a) = b`. Given `n`
+    /// points of evaluation, `n-1` degree polynomial is generated
+    pub fn new_from_evals(evals: &[(T, T)]) -> Self {
+        // We know that if all evalutaions matrix `E` is multiplied by
+        // coefficient vector `C`, resultant would be `R`. `evals`
+        // essentially is `[E(x) | R]`
+        let x_powers_matrix = DMatrix::<T>::from_rows(
+            &evals
+                .iter()
+                .map(|(eval_point, _eval)| {
+                    RowDVector::from_iterator(
+                        evals.len(),
+                        Self::generate_powers(eval_point.clone(), evals.len()),
+                    )
+                })
+                .collect::<Vec<_>>()[..],
+        );
+
+        let x_inverse_matrix = x_powers_matrix.qr().try_inverse().unwrap();
+
+        let eval_matrix = DMatrix::<T>::from_rows(
+            &evals
+                .iter()
+                .map(|(_eval_point, eval)| RowDVector::from_iterator(1, [eval.clone()]))
+                .collect::<Vec<_>>()[..],
+        );
+
+        let coeff_matrix = x_inverse_matrix * eval_matrix;
+
+        Self {
+            repr: PolynomialRepr::Coeff(Vec::<T>::from_iter(coeff_matrix.iter().cloned())),
+        }
+    }
+}
+
+impl<T> Polynomial<T>
+where
+    T: Zero + One + Mul<Output = T> + Sub<Output = T> + Clone + Debug,
+{
     /// Evaluates the polynomial at a point.
     ///
     /// # Examples
@@ -119,5 +178,18 @@ mod tests {
         assert_eq!(Polynomial::<u32>::new_from_coeffs(&[3, 2, 1]).degree(), 3);
         assert_eq!(Polynomial::<u32>::new_from_roots(&[3, 2, 1]).degree(), 3);
         assert_eq!(Polynomial::<u32>::new_from_roots(&[3, 2, 3]).degree(), 2);
+    }
+
+    #[test]
+    fn test_generate_power() {
+        assert_eq!(Polynomial::generate_powers(2, 5), vec![1, 2, 4, 8, 16]);
+    }
+
+    #[test]
+    fn polynomial_from_evals() {
+        // polynomial -> 1 + 4*x + x^2
+        let evals = [(1.0, 6.0), (2.0, 13.0), (3.0, 22.0)];
+        let polynomial = Polynomial::new_from_evals(&evals);
+        assert_eq!(polynomial.eval(10.0) as i64, 141);
     }
 }
