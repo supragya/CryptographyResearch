@@ -5,7 +5,7 @@ A single repository that hosts my "in-code" research of: protocols, ZK, cryptogr
 
 ## On lower level zero-knowledge elements
 - [univariate-polynomial-iop-zerotest](./univariate-polynomial-iop-zerotest): Polynomial IOP test that $f(x)$'s evaluation on $k$-sized subgroup of a finite field of prime order is all zero.
-- [shamir-secret-sharing](./shamir-secret-sharing): Is an implementation of secret sharing algorithm.
+- [\[Sha97\]shamir-secret-sharing](./\[Sha97\]shamir-secret-sharing): Is an implementation of secret sharing algorithm given at https://apps.dtic.mil/sti/pdfs/ADA069397.pdf.
 
 ## Zero-knowledge circuit creation
 - [halo2-trials](./halo2-trials): A simple tutorial for writing a basic `halo2` circuit for ZCash.

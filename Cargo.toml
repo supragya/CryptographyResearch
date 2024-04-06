@@ -3,7 +3,7 @@ members = [
     "polynomial",
     "univariate-polynomial-iop-zerotest",
     "halo2-trials",
-    "shamir-secret-sharing"
+    "[Sha97]shamir-secret-sharing"
 ]
 resolver = "2"
 
