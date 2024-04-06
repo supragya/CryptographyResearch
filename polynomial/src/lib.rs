@@ -69,7 +69,7 @@ where
     fn generate_powers(base: T, deg: usize) -> Vec<T> {
         let mut powers_vec = Vec::<T>::with_capacity(deg);
         powers_vec.push(T::one());
-        for idx in 1..powers_vec.capacity() {
+        for idx in 1..deg {
             powers_vec.push(base.clone() * powers_vec[idx - 1].clone());
         }
         powers_vec
