@@ -1,0 +1,9 @@
+[package]
+edition = "2021"
+name = "shamir-secret-sharing"
+version = "0.1.0"
+
+[dependencies]
+polynomial = {path = "../polynomial"}
+rand = "0.8.5"
+rand_chacha = "0.3.1"
