@@ -1,9 +1,12 @@
 [package]
 edition = "2021"
-name = "univariate-polynomial-iop-zerotest"
+name = "feldman-verifiable-secret-sharing"
 version = "0.1.0"
 
 [dependencies]
+polynomial = { path = "../polynomial" }
+rand = { workspace = true }
+rand_chacha = { workspace = true }
 ark-bls12-381 = { workspace = true }
 ark-ec = { workspace = true }
 ark-ff = { workspace = true }

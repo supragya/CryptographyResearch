@@ -1,9 +1,10 @@
 [workspace]
 members = [
-    "polynomial",
-    "univariate-polynomial-iop-zerotest",
-    "halo2-trials",
-    "[Sha97]shamir-secret-sharing"
+  "polynomial",
+  "univariate-polynomial-iop-zerotest",
+  "halo2-trials",
+  "[Sha97]shamir-secret-sharing",
+  "[Fel87]feldman-verifiable-secret-sharing",
 ]
 resolver = "2"
 
@@ -11,3 +12,17 @@ resolver = "2"
 codegen-units = 1
 lto = "fat"
 opt-level = "z"
+
+[workspace.dependencies]
+ark-bls12-381 = "0.4.0"
+ark-ec = "0.4.2"
+ark-ff = "0.4.2"
+ark-std = "0.4.0"
+num-traits = "0.2.18"
+nalgebra = "0.32.5"
+halo2 = "0.0.0"
+halo2_proofs = "0.3.0"
+rand_core = "0.6.4"
+rand = "0.8.5"
+rand_chacha = "0.3.1"
+simba = "0.8.1"

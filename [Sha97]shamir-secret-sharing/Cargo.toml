@@ -4,6 +4,8 @@ name = "shamir-secret-sharing"
 version = "0.1.0"
 
 [dependencies]
-polynomial = {path = "../polynomial"}
-rand = "0.8.5"
-rand_chacha = "0.3.1"
+num-traits = { workspace = true }
+simba = { workspace = true }
+polynomial = { path = "../polynomial" }
+rand = { workspace = true }
+rand_chacha = { workspace = true }
