@@ -46,9 +46,10 @@ impl<T> Polynomial<T> {
     }
 }
 
-impl <T> Polynomial<T>
+impl<T> Polynomial<T>
 where
-    T: Clone {
+    T: Clone,
+{
     /// Get raw coefficients
     pub fn get_raw_coefficients(&self) -> Vec<T> {
         match &self.repr {

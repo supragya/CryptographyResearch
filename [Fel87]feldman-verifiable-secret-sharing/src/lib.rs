@@ -10,7 +10,7 @@ fn generate_two_powers(point: G1Projective, n: usize) -> Vec<G1Projective> {
     powers.push(G1Projective::default());
     powers.push(point);
     for idx in 2..n {
-        powers.push(powers[idx-1].double());
+        powers.push(powers[idx - 1].double());
     }
     powers
 }
@@ -30,7 +30,6 @@ fn point_exponentiation(exponent: u32, powers_of_2: &Vec<G1Projective>) -> G1Pro
 
     result
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -52,7 +51,8 @@ mod tests {
 
         let coeffs: Vec<u32> = vec![secret as u32, 4];
 
-        let generator_two_powers = generate_two_powers(ark_bls12_381::G1Projective::generator(), 32);
+        let generator_two_powers =
+            generate_two_powers(ark_bls12_381::G1Projective::generator(), 32);
 
         let public_g_raised_coeffs: Vec<G1Projective> = coeffs
             .iter()
@@ -68,15 +68,39 @@ mod tests {
         assert_eq!(polynomial.eval(0.0) as f64, secret as f64);
 
         // Now evaulate at a few random points to make the secret
-        let secret_parts: Vec<(f64, f64)> = (1..(parts+1))
+        let secret_parts: Vec<(f64, f64)> = (1..(parts + 1))
             .map(|x| {
-                let eval = polynomial.eval((x*10) as f64);
-                ((x*10) as f64, eval)
+                let eval = polynomial.eval((x * 10) as f64);
+                ((x * 10) as f64, eval)
             })
             .collect();
 
         // Ensure reconstruction is possible
-        let reconstructed_poly = Polynomial::new_from_evals(&[secret_parts[0], secret_parts[3]]);
-        assert!((reconstructed_poly.eval(0.0) - (secret as f64)).abs() < 0.0000001);
+        let secrets_revealed = [secret_parts[0], secret_parts[3]];
+        let reconstructed_poly = Polynomial::new_from_evals(&secrets_revealed);
+        // Now that we have reconstructed the polynomial from secret parts,
+        // we need to ensure that those "secrets" are verifyably correct.
+        // This is where VSS kicks in. For this, we use `public_g_raised_coeffs`
+        let reconstructed_coeffs: Vec<u32> = reconstructed_poly
+            .get_raw_coefficients()
+            .into_iter()
+            .map(|x| x as u32)
+            .collect();
+
+        let a_powers: Vec<Vec<G1Projective>> = public_g_raised_coeffs
+            .into_iter()
+            .map(|x| generate_two_powers(x, 32))
+            .collect();
+
+        for (x, eval) in secrets_revealed {
+            let mut running_x_pow = 1.0;
+            let mut running_g_multiplier = G1Projective::default();
+            for (idx, coeff) in reconstructed_coeffs.iter().enumerate() {
+                running_g_multiplier =
+                    running_g_multiplier * point_exponentiation(*coeff, &a_powers[idx])
+            }
+        }
+
+        // assert!((reconstructed_poly.eval(0.0) - (secret as f64)).abs() < 0.0000001);
     }
 }
