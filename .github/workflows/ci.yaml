@@ -19,28 +19,31 @@ env:
 
 jobs:
   lint:
+    strategy:
+      matrix:
+        rust: [stable, nightly]
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v2
-      - name: Setup | Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: hecrj/setup-rust-action@v2
         with:
-          rust-version: stable
-          components: clippy
+          rust-version: ${{ matrix.rust }}
       - name: Build | Lint
         run: cargo clippy
   compile:
+    strategy:
+      matrix:
+        rust: [stable, nightly]
     name: Compile
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v2
-      - name: Setup | Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: hecrj/setup-rust-action@v2
         with:
-          rust-version: stable
+          rust-version: ${{ matrix.rust }}
       - name: Build | Compile
         run: cargo check
   test:
@@ -52,15 +55,13 @@ jobs:
           - macOS-latest
         rust:
           - stable
-          # - beta
-          # - nightly
+          - nightly
     runs-on: ${{ matrix.os }}
     needs: [compile]
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v2
-      - name: Setup | Rust
-        uses: ATiltedTree/setup-rust@v1
+      - uses: hecrj/setup-rust-action@v2
         with:
           rust-version: ${{ matrix.rust }}
       - name: Build | Compile
