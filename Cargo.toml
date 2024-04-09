@@ -5,6 +5,7 @@ members = [
   "halo2-trials",
   "[Sha97]shamir-secret-sharing",
   "[Fel87]feldman-verifiable-secret-sharing",
+  "[Sch91]schnorr-discrete-log-proof-of-knowledge",
 ]
 resolver = "2"
 
