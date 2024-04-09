@@ -1,11 +1,15 @@
-# research
+# Cryptography-Research
 ![CI Status](https://github.com/supragya/research/actions/workflows/ci.yaml/badge.svg)
 
 A single repository that hosts my "in-code" research of: protocols, ZK, cryptography, rust etc.
 
-## On lower level zero-knowledge elements
-- [univariate-polynomial-iop-zerotest](./univariate-polynomial-iop-zerotest): Polynomial IOP test that $f(x)$'s evaluation on $k$-sized subgroup of a finite field of prime order is all zero.
-- [\[Sha97\]shamir-secret-sharing](./\[Sha97\]shamir-secret-sharing): Is an implementation of secret sharing algorithm given at https://apps.dtic.mil/sti/pdfs/ADA069397.pdf.
+## Browsing the codebase
+The codebase is mostly split into different directories depending on the specific ideas that they tackle. While mostly consistent with this scheme, there may be deviations. Download the codebase locally and run as follows:
+```sh
+git clone git@github.com:supragya/Cryptography-Research.git
+cd Cryptography-Research && cargo test
+```
 
-## Zero-knowledge circuit creation
-- [halo2-trials](./halo2-trials): A simple tutorial for writing a basic `halo2` circuit for ZCash.
+## References
+- **\[Sha97\]**: Shamir's secret sharing https://apps.dtic.mil/sti/pdfs/ADA069397.pdf.
+- **\[Fel87\]**: Feldman's verifiable secret sharing https://www.zkdocs.com/docs/zkdocs/protocol-primitives/verifiable-secret-sharing/
