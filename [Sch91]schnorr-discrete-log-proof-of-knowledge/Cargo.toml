@@ -4,3 +4,4 @@ name = "schnorr-discrete-log-proof-of-knowledge"
 version = "0.1.0"
 
 [dependencies]
+ark-ff = { workspace = true }
