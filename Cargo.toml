@@ -5,6 +5,7 @@ members = [
   "halo2-trials",
   "[Sha97]shamir-secret-sharing",
   "[Fel87]feldman-verifiable-secret-sharing",
+  "[Sch91]schnorr-discrete-log-proof-of-knowledge",
 ]
 resolver = "2"
 
@@ -18,6 +19,7 @@ ark-bls12-381 = "0.4.0"
 ark-ec = "0.4.2"
 ark-ff = "0.4.2"
 ark-std = "0.4.0"
+ark-crypto-primitives = "0.4.0"
 num-traits = "0.2.18"
 nalgebra = "0.32.5"
 halo2 = "0.0.0"
