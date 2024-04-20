@@ -8,3 +8,4 @@ Here, generation of $u$ is necessary to maintain secrecy of x (the additive blin
 
 ## References
 - https://crypto.stanford.edu/cs355/19sp/lec5.pdf
+- https://crypto.stackexchange.com/questions/58954/multiplication-of-two-points-belong-to-elliptic-curve
