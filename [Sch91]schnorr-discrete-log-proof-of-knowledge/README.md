@@ -1,5 +1,5 @@
 # Schnorr's Identification Protocol
-Schorr's Identification Protocol represented in this repo via \[Sch91\] is a simple zero-knowledge protocol wherein a prover $P$ is able to convince a verifier $V$ that they know of some private value $x$ under $G$ (where discrete-log problem is hard), against a securely held value $h=g^x$ (where $g$ is a generator of $G$) at $V$ without revealing $x$ itself.
+Schnorr's Identification Protocol represented in this repo via \[Sch91\] is a simple zero-knowledge protocol wherein a prover $P$ can convince a verifier $V$ that they know of some private value $x$ under $G$ (where discrete-log problem is hard), against a securely held value $h=g^x$ (where $g$ is a generator of $G$) at $V$ without revealing $x$ itself.
 
 In the interactive format, the protocol runs as follows:
 ![Interactive Schnorr Protocol](assets/interactive_schnorr.png)
