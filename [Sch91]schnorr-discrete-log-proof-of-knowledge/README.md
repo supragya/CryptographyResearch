@@ -7,5 +7,8 @@ In the interactive format, the protocol runs as follows:
 Here, generation of $u$ is necessary to maintain secrecy of x (the additive blinding factor). As without the value $r$, $z = x c$, and $x$ can be retrieved by operation $x = z c^{-1}$ where $c^{-1}$ is the inverse of element $c$ in the group.
 
 ## References
-- https://crypto.stanford.edu/cs355/19sp/lec5.pdf
+## References
+
+[Stanford CS355 Lecture 5](https://crypto.stanford.edu/cs355/19sp/lec5.pdf)
+
 - https://crypto.stackexchange.com/questions/58954/multiplication-of-two-points-belong-to-elliptic-curve
