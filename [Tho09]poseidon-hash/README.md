@@ -39,7 +39,15 @@ Directory `reference/hadeshash` includes `generate_params_poseidong.sage` for ge
 # Modulus = `52435875175126190479447740508185965837690552500527637822603658699938581184513`
 # In Hex that is `0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001`
 # So, the following command should work:
-sage generate_params_poseidon.sage 1 0 255 3 3 128 0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001
+
+sage generate_params_poseidon.sage \
+    1 # field = 1 for GF(p) \
+    0 # s_box = 0 for x^alpha, s_box = 1 for x^(-1) \
+    255 # field_size (n) bits \
+    3 # num_cells (t) \
+    3 # alpha \
+    128 # security level \
+    0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001
 ```
 This generates `poseidon_params_n255_t3_alpha3_M128.txt` file. Using values in this file, we generate values ingested in the rust code.
 
