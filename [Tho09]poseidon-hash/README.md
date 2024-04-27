@@ -53,5 +53,5 @@ This generates `poseidon_params_n255_t3_alpha3_M128.txt` file. Using values in t
 
 
 ## References
-- https://eprint.iacr.org/2019/458.pdf
-- https://github.com/arnaucube/poseidon-ark/
+[ICAR 2019/458](https://eprint.iacr.org/2019/458.pdf)
+[Poseidon-ARK GitHub Repository](https://github.com/arnaucube/poseidon-ark/)
