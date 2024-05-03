@@ -14,3 +14,4 @@ cd Cryptography-Research && cargo test
 - **\[Sha97\]**: Shamir's secret sharing https://apps.dtic.mil/sti/pdfs/ADA069397.pdf.
 - **\[Fel87\]**: Feldman's verifiable secret sharing https://www.zkdocs.com/docs/zkdocs/protocol-primitives/verifiable-secret-sharing/
 - **\[Sch91\]**: Schnorr's DLog PoK https://www.zkdocs.com/docs/zkdocs/zero-knowledge-protocols/schnorr/
+- **\[rfc1321\]**: Message Digest v5 hashing function: https://datatracker.ietf.org/doc/html/rfc1321

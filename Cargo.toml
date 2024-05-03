@@ -6,6 +6,7 @@ members = [
   "[Sha97]shamir-secret-sharing",
   "[Fel87]feldman-verifiable-secret-sharing",
   "[Sch91]schnorr-discrete-log-proof-of-knowledge",
+  "[rfc1321]message-digest-v5-hash",
 ]
 resolver = "2"
 
