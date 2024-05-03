@@ -4,3 +4,4 @@ name = "message-digest-5"
 version = "0.1.0"
 
 [dependencies]
+itertools = { workspace = true }

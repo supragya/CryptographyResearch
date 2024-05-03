@@ -3,10 +3,10 @@ members = [
   "polynomial",
   "univariate-polynomial-iop-zerotest",
   "halo2-trials",
+  "[Rfc1321]message-digest-v5-hash",
   "[Sha97]shamir-secret-sharing",
   "[Fel87]feldman-verifiable-secret-sharing",
   "[Sch91]schnorr-discrete-log-proof-of-knowledge",
-  "[rfc1321]message-digest-v5-hash",
 ]
 resolver = "2"
 
@@ -29,3 +29,4 @@ rand_core = "0.6.4"
 rand = "0.8.5"
 rand_chacha = "0.3.1"
 simba = "0.8.1"
+itertools = "0.12.1"
