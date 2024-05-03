@@ -44,6 +44,11 @@ impl PoseidonHasher {
             })
     }
 
+    /// Applies MDS matrix to get a new state
+    fn apply_mds_matrix(&mut self) {
+
+    }
+
     pub fn hash(&self, input: Vec<Fr>) -> Fr {
         // We first have to chunk the input into groups of `T` size.
 

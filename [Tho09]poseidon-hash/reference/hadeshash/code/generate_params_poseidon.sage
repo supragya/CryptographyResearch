@@ -6,7 +6,7 @@ if len(sys.argv) < 8:
     print("Usage: <script> <field> <s_box> <field_size> <num_cells> <alpha> <security_level> <modulus_hex>")
     print("field = 1 for GF(p)")
     print("s_box = 0 for x^alpha, s_box = 1 for x^(-1)")
-    exit()
+    exit() 
 
 # GF(p), n = 255, t = 3, alpha=5: sage generate_params_poseidon.sage 1 0 255 3 5 128 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
 # GF(p), n = 255, t = 5, alpha=5: sage generate_params_poseidon.sage 1 0 255 5 5 128 0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001

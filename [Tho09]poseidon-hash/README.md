@@ -34,7 +34,7 @@ Each such round consists of the following three sub-steps:
 ## Reference implementation for magic values
 Directory `reference/hadeshash` includes `generate_params_poseidong.sage` for generating values used inside poseidon hasher. We build values for BLS12-381's $F_q$ a.k.a Scalar Field. For this, use:
 
-```bash
+```sh
 # For generating for BLS12-381 Fq;
 # Modulus = `52435875175126190479447740508185965837690552500527637822603658699938581184513`
 # In Hex that is `0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001`
