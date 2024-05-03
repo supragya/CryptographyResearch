@@ -11,6 +11,9 @@ cd Cryptography-Research && cargo test
 ```
 
 ## References
+
 - **\[Sha97\]**: Shamir's secret sharing https://apps.dtic.mil/sti/pdfs/ADA069397.pdf.
 - **\[Fel87\]**: Feldman's verifiable secret sharing https://www.zkdocs.com/docs/zkdocs/protocol-primitives/verifiable-secret-sharing/
 - **\[Sch91\]**: Schnorr's DLog PoK https://www.zkdocs.com/docs/zkdocs/zero-knowledge-protocols/schnorr/
+- **\[Tho09\]**: Poseidon Hasher https://eprint.iacr.org/2009/226.pdf
+
