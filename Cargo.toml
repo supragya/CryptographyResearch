@@ -6,6 +6,7 @@ members = [
   "[Sha97]shamir-secret-sharing",
   "[Fel87]feldman-verifiable-secret-sharing",
   "[Sch91]schnorr-discrete-log-proof-of-knowledge",
+  "[PLO2]plonky2-fibonacci",
 ]
 resolver = "2"
 
