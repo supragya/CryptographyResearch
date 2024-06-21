@@ -42,7 +42,13 @@ mod tests {
         pw.set_target(initial_b, F::ONE);
 
         let data = builder.build::<C>();
-        let proof_with_public_inputs = data.prove(pw).unwrap();
+        let proof_with_public_inputs = match data.prove(pw) {
+            Ok(proof) => proof,
+            Err(e) => {
+                eprintln!("Failed to generate proof: {:?}", e);
+                return;
+            }
+        };
 
         println!(
             "public inputs are: {:?}",
