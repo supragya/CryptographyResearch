@@ -7,6 +7,7 @@ members = [
   "[Fel87]feldman-verifiable-secret-sharing",
   "[Sch91]schnorr-discrete-log-proof-of-knowledge",
   "[PLO2]plonky2-fibonacci",
+  "[PLO2]plonky2-factorial",
 ]
 resolver = "2"
 
