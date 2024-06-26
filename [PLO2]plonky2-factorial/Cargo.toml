@@ -1,0 +1,7 @@
+[package]
+edition = "2021"
+name = "plonky2-factorial"
+version = "0.1.0"
+
+[dependencies]
+plonky2 = { git = "https://github.com/0xPolygonZero/plonky2" }
