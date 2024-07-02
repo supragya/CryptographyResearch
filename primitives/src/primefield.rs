@@ -1,5 +1,7 @@
 //! This module contains the definition of struct `PrimeField`
 
+use std::fmt::{Display, Formatter};
+
 use crate::finitefield::FiniteField;
 
 /// The `PrimeField` struct represents elements of a field of prime order.
@@ -35,7 +37,35 @@ const fn ensure_prime(n: usize) -> usize {
 ///
 /// A multiplicative generator should be able to generate all the elements
 /// in the multiplicative subgroup in the field.
-const fn find_multiplicative_generator<const P: usize>() -> PrimeField<P> {}
+const fn find_multiplicative_generator<const P: usize>() -> PrimeField<P> {
+    const fn gcd(a: usize, b: usize) -> usize {
+        let mut a = a;
+        let mut b = b;
+        while b != 0 {
+            let temp = b;
+            b = a % b;
+            a = temp;
+        }
+        a
+    }
+    // This is wrong, through the run of the code below it would be
+    // hold values which are non-prime. But that's okay... it will only
+    // ever possibly pass for primes
+    let mut num = 2;
+    while num * num <= P {
+        if gcd(num, P) == 1 {
+            return PrimeField::<P>::new(num);
+        }
+        i += 1;
+    }
+    panic!("cannot find generator");
+}
+
+impl<const P: usize> Display for PrimeField<P> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.value)
+    }
+}
 
 impl<const P: usize> FiniteField for PrimeField<P> {
     const MULTIPLICATIVE_GENERATOR: Self = if P == 2 {
@@ -46,6 +76,35 @@ impl<const P: usize> FiniteField for PrimeField<P> {
     const ONE: Self = Self { value: 1 };
     const ORDER: usize = ensure_prime(P);
     const ZERO: Self = Self { value: 0 };
+
+    fn multiplicative_inverse(&self) -> Option<Self> {
+        if self.value == 0 {
+            return None;
+        }
+
+        // We know that within a prime field, due to fermat's little theorem
+        // any element `e` will have
+        //      e^(p-1) = 1 mod P
+        // Hence,
+        //      e^(p-2) = p^(-1) mod P
+
+        Some(self.clone().pow(Self::ORDER - 2))
+    }
+
+    fn pow(self, pow: usize) -> Self {
+        let mut pow = pow;
+        let result = Self::ONE;
+
+        while pow > 0 {
+            if pow & 1 == 1 {
+                result *= self;
+            }
+            self *= self;
+            pow >>= 1;
+        }
+
+        result
+    }
 }
 
 // Implement aspects of `PrimeField`
@@ -84,8 +143,6 @@ impl<const P: usize> PrimeField<P> {
     ///
     /// More info here: https://www.youtube.com/watch?v=2IBPOI43jek
     pub fn is_quadratic_residue(&self) -> bool {
-        self.pow((P - 1) / 2)
-            .value
-            == Self::ONE
+        self.pow((P - 1) / 2).value == Self::ONE
     }
 }
