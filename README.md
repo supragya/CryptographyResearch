@@ -1,7 +1,11 @@
 # Cryptography-Research
 ![CI Status](https://github.com/supragya/research/actions/workflows/ci.yaml/badge.svg)
 
-A single repository that hosts my "in-code" research of: protocols, ZK, cryptography, rust etc.
+A toy project that intends to implement "in-code" a bunch of stuff. This includes but is not limited to:
+- Groups, Finite Fields, Prime Fields, Binary Towers etc.
+- Frontend compiler for zero-knowledge backends
+- Components of Zero Knowledge systems: R1CS, PLONK, FRI etc.
+- Algorithms such as Shamir's Secret Sharing, Verifiable Secret Sharing, Shnorr Discrete Log Proof of Knowledge
 
 ## Browsing the codebase
 The codebase is mostly split into different directories depending on the specific ideas that they tackle. While mostly consistent with this scheme, there may be deviations. Download the codebase locally and run as follows:
