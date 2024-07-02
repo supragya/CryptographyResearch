@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "primitives",
   "polynomial",
   "univariate-polynomial-iop-zerotest",
   "halo2-trials",
