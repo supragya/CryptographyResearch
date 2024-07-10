@@ -199,9 +199,11 @@ mod tests {
                         .2
                         .into(),
                 ];
-                polynomial.evaluate(&eval_point)
+                let a = polynomial.evaluate(&eval_point);
+                a
             })
             .sum();
+        assert_eq!(sum, Fp7::from_bigint((12u32 % 7).into()).unwrap());
 
         let mut iop =
             Rc::new(RefCell::new(CommonIOPData::new(number_of_variables, sum)));
