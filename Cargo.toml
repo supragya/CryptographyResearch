@@ -4,6 +4,7 @@ members = [
   "univariate-polynomial-iop-zerotest",
   "halo2-trials",
   "[Sha97]shamir-secret-sharing",
+  "[LFKN90]sum-check",
   "[Fel87]feldman-verifiable-secret-sharing",
   "[Sch91]schnorr-discrete-log-proof-of-knowledge",
   "[PLO2]plonky2-fibonacci",
@@ -17,8 +18,11 @@ lto = "fat"
 opt-level = "z"
 
 [workspace.dependencies]
+anyhow = "1.0.86"
 ark-bls12-381 = "0.4.0"
+bitvec = "1.0.1"
 ark-ec = "0.4.2"
+ark-poly = "0.4.2"
 ark-ff = "0.4.2"
 ark-std = "0.4.0"
 ark-crypto-primitives = "0.4.0"
