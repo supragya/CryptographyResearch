@@ -3,22 +3,50 @@ use std::{
     rc::Rc,
 };
 
-use ark_poly::multivariate::SparsePolynomial;
+use ark_ff::Field;
+use ark_poly::{
+    multivariate::{
+        SparsePolynomial,
+        Term,
+    },
+    Polynomial,
+};
 
-pub struct PolynomialOracle<F: Field> {
+pub struct PolynomialOracle<F: Field, T: Term> {
     /// Remaining access
     access_counter: usize,
 
     /// Polynomial
-    poly: SparsePolynomial<F>,
+    poly: SparsePolynomial<F, T>,
 }
 
-pub struct Prover<F: Field> {
+impl<F: Field, T: Term> PolynomialOracle<F, T> {
+    pub fn new(
+        number_of_allowed_accesses: usize,
+        polynomial: SparsePolynomial<F, T>,
+    ) -> Self {
+        Self {
+            access_counter: number_of_allowed_accesses,
+            poly: polynomial,
+        }
+    }
+}
+
+pub struct Prover<F: Field, T: Term> {
     /// Oracle access, single use
-    poly_oracle: PolynomialOracle<F>,
+    poly_oracle: PolynomialOracle<F, T>,
 
     /// Common IOP data access to get the challenges
     iop: Rc<RefCell<CommonIOPData<F>>>,
+}
+
+impl<F: Field, T: Term> Prover<F, T> {
+    pub fn new(
+        poly_oracle: PolynomialOracle<F, T>,
+        iop: Rc<RefCell<CommonIOPData<F>>>,
+    ) -> Self {
+        Self { poly_oracle, iop }
+    }
 }
 
 pub struct CommonIOPData<F: Field> {
@@ -32,9 +60,22 @@ pub struct CommonIOPData<F: Field> {
     challenges: Vec<F>,
 }
 
-pub struct Verifier<F: Field> {
+impl<F: Field> CommonIOPData<F> {
+    pub fn new(
+        num_of_variables: usize,
+        provers_claim: F,
+    ) -> Self {
+        Self {
+            num_of_variables,
+            provers_claim,
+            challenges: vec![],
+        }
+    }
+}
+
+pub struct Verifier<F: Field, T: Term> {
     /// Oracle access, single use
-    poly_oracle: PolynomialOracle<F>,
+    poly_oracle: PolynomialOracle<F, T>,
 
     /// Common IOP data access to get the challenges
     iop: Rc<RefCell<CommonIOPData<F>>>,
@@ -42,6 +83,11 @@ pub struct Verifier<F: Field> {
 
 #[cfg(test)]
 mod tests {
+    use std::{
+        cell::RefCell,
+        rc::Rc,
+    };
+
     use ark_ff::{
         Field,
         Fp64,
@@ -57,12 +103,19 @@ mod tests {
             SparseTerm,
             Term,
         },
-        univariate::SparsePolynomial,
         DenseMVPolynomial,
+        Polynomial,
     };
     use ark_std::{
         rand::Rng,
         test_rng,
+    };
+    use itertools::iproduct;
+
+    use crate::{
+        CommonIOPData,
+        PolynomialOracle,
+        Prover,
     };
 
     #[derive(MontConfig)]
@@ -124,6 +177,7 @@ mod tests {
         // Create a mulitivariate polynomial in x, y, z:
         // 2(x^3) + (x)(z) + (y)(z)
         // `number_of_vars = 3`
+        let number_of_variables = 3;
         let terms = vec![
             create_term(2, vec![(0, 3)]),
             create_term(1, vec![(0, 1), (2, 1)]),
@@ -132,7 +186,28 @@ mod tests {
 
         let polynomial = SparsePolynomial::from_coefficients_vec(3, terms);
 
-        let mut prover = Prover::with_polynomial(polynomial.clone());
-        let mut provers_final_claim = prover.get_final_claim();
+        let sum = iproduct!(0..2, 0..2, 0..2)
+            .map(|eval_point| {
+                let eval_point = vec![
+                    eval_point
+                        .0
+                        .into(),
+                    eval_point
+                        .1
+                        .into(),
+                    eval_point
+                        .2
+                        .into(),
+                ];
+                polynomial.evaluate(&eval_point)
+            })
+            .sum();
+
+        let mut iop =
+            Rc::new(RefCell::new(CommonIOPData::new(number_of_variables, sum)));
+        let prover = Prover::new(
+            PolynomialOracle::new(3, polynomial.clone()),
+            iop.clone(),
+        );
     }
 }

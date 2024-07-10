@@ -4,6 +4,7 @@ name = "sum-check"
 version = "0.1.0"
 
 [dependencies]
+itertools = { workspace = true }
 ark-ff = { workspace = true }
 ark-poly = { workspace = true }
 ark-std = { workspace = true }
